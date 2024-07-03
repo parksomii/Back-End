@@ -16,6 +16,7 @@ public class Lecture {
     private String lectureRoom;
     private String lectureHours;
     private int totalCapacity;
+    private String lectureDescription; // 강의 설명 추가
 
     @ManyToOne
     @JoinColumn(name = "department_id")

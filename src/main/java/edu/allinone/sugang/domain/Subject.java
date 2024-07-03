@@ -13,7 +13,6 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String subjectName;
-    private String subjectDescription;
     private String subjectDivision;
     private String targetGrade;
     private int hoursPerWeek;
