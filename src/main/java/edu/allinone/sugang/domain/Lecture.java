@@ -33,8 +33,6 @@ public class Lecture {
     @OneToMany(mappedBy = "lecture")
     private List<Enrollment> enrollments;
 
-    /*
     @OneToMany(mappedBy = "lecture")
     private List<Schedule> schedules;
-    */
 }
