@@ -20,4 +20,8 @@ public class Subject {
 
     @OneToMany(mappedBy = "subject")
     private List<Lecture> lectures;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
 }

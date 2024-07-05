@@ -19,4 +19,11 @@ public class Department {
 
     @OneToMany(mappedBy = "department")
     private List<Lecture> lectures;
+
+    @ManyToOne
+    @JoinColumn(name = "college_id")
+    private College college;
+
+    @OneToMany(mappedBy = "department")
+    private List<Subject> subjects;
 }
