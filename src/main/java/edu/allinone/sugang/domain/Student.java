@@ -1,8 +1,7 @@
 package edu.allinone.sugang.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,7 +11,10 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
     private String studentNumber;
+
     private String studentPassword;
     private String studentName;
     private String grade;
@@ -24,4 +26,5 @@ public class Student {
 
     @OneToMany(mappedBy = "student")
     private List<Enrollment> enrollments;
+
 }
