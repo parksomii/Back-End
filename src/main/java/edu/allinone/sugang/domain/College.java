@@ -11,7 +11,7 @@ import java.util.List;
 public class College {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "college_name")
     private String collegeName;
