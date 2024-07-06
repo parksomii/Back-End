@@ -8,12 +8,12 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 public class College {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "college_name")
     private String collegeName;
 
     @OneToMany(mappedBy = "college")
