@@ -9,7 +9,7 @@ import lombok.Setter;
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "day_of_week")
     private String dayOfWeek;

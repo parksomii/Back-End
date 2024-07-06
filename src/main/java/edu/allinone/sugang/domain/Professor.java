@@ -12,7 +12,7 @@ import java.util.List;
 public class Professor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "professor_name")
     private String professorName;
