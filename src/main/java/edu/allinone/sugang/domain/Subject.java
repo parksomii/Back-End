@@ -7,17 +7,31 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
+@Table(name = "subject")
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "subject_name")
     private String subjectName;
+
+    @Column(name = "subject_division")
     private String subjectDivision;
+
+    @Column(name = "target_grade")
     private String targetGrade;
+
+    @Column(name = "hours_per_week")
     private int hoursPerWeek;
-    private int credits;
+
+    private int credit;
 
     @OneToMany(mappedBy = "subject")
     private List<Lecture> lectures;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
 }

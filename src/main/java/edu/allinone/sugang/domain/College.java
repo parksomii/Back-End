@@ -4,20 +4,18 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
-public class Enrollment {
+public class College {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+    @Column(name = "college_name")
+    private String collegeName;
 
-    @ManyToOne
-    @JoinColumn(name = "lecture_id")
-    private Lecture lecture;
-
-    private boolean cancel;
+    @OneToMany(mappedBy = "college")
+    private List<Department> departments;
 }
