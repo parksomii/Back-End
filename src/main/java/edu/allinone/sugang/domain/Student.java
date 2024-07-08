@@ -6,15 +6,19 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @Column(unique = true)
+    @Column(unique = true, name = "student_number")
     private String studentNumber;
 
+    @Column(name = "student_password")
     private String studentPassword;
     private String studentName;
     private String grade;
