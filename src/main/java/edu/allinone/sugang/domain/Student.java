@@ -1,18 +1,24 @@
 package edu.allinone.sugang.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
+
+    @Column(unique = true, name = "student_number")
     private String studentNumber;
+
+    @Column(name = "student_password")
     private String studentPassword;
     private String studentName;
     private String grade;
@@ -24,4 +30,5 @@ public class Student {
 
     @OneToMany(mappedBy = "student")
     private List<Enrollment> enrollments;
+
 }
