@@ -42,9 +42,9 @@ public class DepartmentControllerTest {
 
         // 테스트에서 사용할 학과 DTO 객체 생성
         DepartmentDTO department1 = new DepartmentDTO();
-        department1.setId(1);
-        department1.setDepartmentName("컴퓨터공학과");
-        department1.setCollegeId(1);
+        department1.setId(1); // 학과 객체의 ID 설정
+        department1.setDepartmentName("컴퓨터공학과"); // 학과 객체의 이름을 "컴퓨터공학과"로 설정
+        department1.setCollegeId(1); // 학과 객체가 속한 단과대학의 ID를 설정 (예: 1번 단과대학)
 
         DepartmentDTO department2 = new DepartmentDTO();
         department2.setId(2);
@@ -58,14 +58,14 @@ public class DepartmentControllerTest {
     // 특정 단과대학 ID에 해당하는 학과 목록을 반환하는 메서드를 테스트
     @Test
     public void getDepartmentsByCollegeId_ShouldReturnDepartments() throws Exception {
-        Integer collegeId = 1;
+        Integer collegeId = 1; // 테스트할 단과대학 ID를 설정
 
         // 모의 서비스 메서드가 호출될 때 반환할 값을 설정
         when(departmentService.getDepartmentsByCollegeId(collegeId)).thenReturn(departmentList);
 
         // GET 요청을 보내고 응답이 예상대로 나오는지 검증
         mockMvc.perform(get("/api/departments/{collegeId}", collegeId)
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)) // 요청의 Content-Type을 JSON으로 설정
                 .andExpect(status().isOk()) // HTTP 상태가 200 OK인지 확인
                 .andExpect(content().json("[{'id': 1, 'departmentName': '컴퓨터공학과', 'collegeId': 1}, {'id': 2, 'departmentName': '기계공학과', 'collegeId': 1}]")); // 응답 JSON이 예상과 일치하는지 확인
     }

@@ -73,7 +73,7 @@ public class SubjectControllerTest {
 
         // GET 요청을 보내고 응답이 예상대로 나오는지 검증
         mockMvc.perform(get("/api/subjects/{departmentId}", departmentId)
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)) // 요청의 Content-Type을 JSON으로 설정
                 .andExpect(status().isOk()) // HTTP 상태가 200 OK인지 확인
                 .andExpect(content().json("[{'id': 1, 'subjectName': '자료구조', 'subjectDivision': '전공', 'targetGrade': '2학년', 'hoursPerWeek': 3, 'credit': 3, 'departmentId': 1}, {'id': 2, 'subjectName': '운영체제', 'subjectDivision': '전공', 'targetGrade': '3학년', 'hoursPerWeek': 3, 'credit': 3, 'departmentId': 1}]")); // 응답 JSON이 예상과 일치하는지 확인
     }

@@ -47,9 +47,3 @@ dependencies {
 	tasks.withType<Test> {
 		useJUnitPlatform()
 	}
-
-	tasks.withType<Test> {
-		useJUnitPlatform()
-		jvmArgs("-Xshare:off", "-XX:+EnableDynamicAgentLoading")  // JVM 에러 문제
-	}
-
