@@ -16,16 +16,16 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = true, name = "student_number")
+    @Column(unique = true, name = "student_number", length = 30, nullable = false)
     private String studentNumber;
 
-    @Column(name = "student_password")
+    @Column(name = "student_password", length = 100, nullable = false)
     private String studentPassword;
 
-    @Column(name = "student_name")
+    @Column(name = "student_name", length = 20, nullable = false)
     private String studentName;
 
-    @Column(name = "grade")
+    @Column(name = "grade", length = 10)
     private String grade;
 
     @Column(name = "max_credits")

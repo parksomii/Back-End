@@ -1,8 +1,7 @@
 package edu.allinone.sugang.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,24 +13,25 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "subject_name")
-    private String subjectName;
-
-    @Column(name = "subject_division")
+    @Column(name = "subject_division", length = 20, nullable = false)
     private String subjectDivision;
 
-    @Column(name = "target_grade")
+    @Column(name = "target_grade", length = 20, nullable = false)
     private String targetGrade;
 
-    @Column(name = "hours_per_week")
-    private int hoursPerWeek;
+    @Column(name = "subject_name", length = 30, nullable = false)
+    private String subjectName;
 
-    private int credit;
+    @Column(name = "hours_per_week", nullable = false)
+    private Integer hoursPerWeek;
+
+    @Column(name = "credit", nullable = false)
+    private Integer credit;
 
     @OneToMany(mappedBy = "subject")
     private List<Lecture> lectures;
 
     @ManyToOne
-    @JoinColumn(name = "department_id")
+    @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 }

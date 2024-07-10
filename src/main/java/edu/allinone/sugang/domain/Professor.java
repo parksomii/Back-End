@@ -14,11 +14,13 @@ public class Professor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "professor_name")
+    @Column(name = "professor_name", length = 20, nullable = false)
     private String professorName;
 
+    @Column(name = "email", length = 30)
     private String email;
 
     @OneToMany(mappedBy = "professor")
     private List<Lecture> lectures;
+
 }

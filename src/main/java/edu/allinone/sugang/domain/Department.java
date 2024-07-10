@@ -1,8 +1,7 @@
 package edu.allinone.sugang.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "department_name")
+    @Column(name = "department_name", length = 20, nullable = false)
     private String departmentName;
 
     @OneToMany(mappedBy = "department")
