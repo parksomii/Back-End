@@ -10,15 +10,25 @@ import java.util.List;
 @Getter
 @Table(name = "professor")
 public class Professor {
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /* -------------------------------------------- */
+    /* ------------ Information Column ------------ */
+    /* -------------------------------------------- */
     @Column(name = "professor_name")
     private String professorName;
 
+    @Column(name = "email")
     private String email;
 
+    /* -------------------------------------------- */
+    /* -------------- Relation Column ------------- */
+    /* -------------------------------------------- */
     @OneToMany(mappedBy = "professor")
     private List<Lecture> lectures;
 }

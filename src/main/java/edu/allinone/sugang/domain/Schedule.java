@@ -7,10 +7,16 @@ import lombok.Setter;
 @Entity
 @Setter @Getter
 public class Schedule {
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /* -------------------------------------------- */
+    /* ------------ Information Column ------------ */
+    /* -------------------------------------------- */
     @Column(name = "day_of_week")
     private String dayOfWeek;
 
@@ -20,6 +26,9 @@ public class Schedule {
     @Column(name = "last_time")
     private String lastTime;
 
+    /* -------------------------------------------- */
+    /* -------------- Relation Column ------------- */
+    /* -------------------------------------------- */
     @ManyToOne
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;

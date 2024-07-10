@@ -10,11 +10,16 @@ import java.util.List;
 @Getter
 @Table(name = "lecture")
 public class Lecture {
-
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /* -------------------------------------------- */
+    /* ------------ Information Column ------------ */
+    /* -------------------------------------------- */
     @Column(name = "lecture_number")
     private int lectureNumber;
 
@@ -33,6 +38,9 @@ public class Lecture {
     @Column(name = "enrolled_count")
     private int enrolledCount; // 수강 신청 인원 추가
 
+    /* -------------------------------------------- */
+    /* -------------- Relation Column ------------- */
+    /* -------------------------------------------- */
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;

@@ -10,13 +10,22 @@ import java.util.List;
 @Getter
 @Table(name = "department")
 public class Department {
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /* -------------------------------------------- */
+    /* ------------ Information Column ------------ */
+    /* -------------------------------------------- */
     @Column(name = "department_name")
     private String departmentName;
 
+    /* -------------------------------------------- */
+    /* -------------- Relation Column ------------- */
+    /* -------------------------------------------- */
     @OneToMany(mappedBy = "department")
     private List<Student> students;
 

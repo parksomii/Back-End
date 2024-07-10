@@ -9,13 +9,22 @@ import java.util.List;
 @Entity
 @Getter
 public class College {
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /* -------------------------------------------- */
+    /* ------------ Information Column ------------ */
+    /* -------------------------------------------- */
     @Column(name = "college_name")
     private String collegeName;
 
+    /* -------------------------------------------- */
+    /* -------------- Relation Column ------------- */
+    /* -------------------------------------------- */
     @OneToMany(mappedBy = "college")
     private List<Department> departments;
 }

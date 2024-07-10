@@ -10,10 +10,16 @@ import java.util.List;
 @Getter
 @Table(name = "subject")
 public class Subject {
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /* -------------------------------------------- */
+    /* ------------ Information Column ------------ */
+    /* -------------------------------------------- */
     @Column(name = "subject_name")
     private String subjectName;
 
@@ -27,8 +33,11 @@ public class Subject {
     private int hoursPerWeek;
 
     @Column(name = "credit")
-    private int credit;
+    private int credit; // 오타 여부 확인
 
+    /* -------------------------------------------- */
+    /* -------------- Relation Column ------------- */
+    /* -------------------------------------------- */
     @OneToMany(mappedBy = "subject")
     private List<Lecture> lectures;
 

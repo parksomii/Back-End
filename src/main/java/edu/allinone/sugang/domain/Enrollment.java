@@ -8,10 +8,22 @@ import lombok.Setter;
 @Entity
 @Getter
 public class Enrollment {
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /* -------------------------------------------- */
+    /* ------------ Information Column ------------ */
+    /* -------------------------------------------- */
+    @Column(name = "cancel")
+    private boolean cancel; // 삭제 고민중
+
+    /* -------------------------------------------- */
+    /* -------------- Relation Column ------------- */
+    /* -------------------------------------------- */
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
@@ -20,8 +32,9 @@ public class Enrollment {
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
-    private boolean cancel;
-
+    /* -------------------------------------------- */
+    /* ----------------- Functions ---------------- */
+    /* -------------------------------------------- */
     @Builder
     public Enrollment(Student student, Lecture lecture, boolean cancel) {
         this.student = student;
