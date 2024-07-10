@@ -28,4 +28,9 @@ public class Enrollment {
         this.lecture = lecture;
         this.cancel = cancel;
     }
+
+    // 수강 신청 취소
+    public void cancel() {
+        this.cancel = true;
+    }
 }
