@@ -62,7 +62,7 @@ public class EnrollmentService {
      * 수강 신청 취소
      */
     @Transactional
-    public void cancel(Long studentId, Long lectureId) {
+    public void cancel(Integer studentId, Integer lectureId) {
         // 1. 강의 정보, 학생 정보 가져오기
         Lecture lecture = lectureRepository.findById(lectureId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 강의가 존재하지 않습니다."));
