@@ -26,7 +26,7 @@ public class EnrollmentService {
      * 수강 신청
      */
     @Transactional
-    public void enroll(Long studentId, Long lectureId) {
+    public void enroll(Integer studentId, Integer lectureId) {
         // 1. 강의 정보, 학생 정보 가져오기
         Lecture lecture = lectureRepository.findById(lectureId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 강의가 존재하지 않습니다."));
@@ -34,12 +34,12 @@ public class EnrollmentService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 존재하지 않습니다."));
 
         // 2. 정원이 찼는지 확인
-        if (lecture.isFull()) {
+        if (lecture.getTotalCapacity() - lecture.getEnrolledCount() <= 0) {
             throw new IllegalArgumentException("정원이 찼습니다.");
         }
 
         // 3. 신청 가능 학점 확인
-        if (student.getMaxCredits() - lecture.getSubject().getCredits() < 0) {
+        if (student.getMaxCredits() - lecture.getSubject().getCredit() < 0) {
             throw new IllegalArgumentException("신청 가능 학점을 초과했습니다.");
         }
 
@@ -55,7 +55,7 @@ public class EnrollmentService {
         lecture.incrementEnrolledCount();
 
         // 6. 신청 가능 학점 감소
-        student.decreaseMaxCredits(lecture.getSubject().getCredits());
+        student.decreaseMaxCredits(lecture.getSubject().getCredit());
     }
 
     /**
@@ -74,12 +74,12 @@ public class EnrollmentService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 수강 신청 정보가 존재하지 않습니다."));
 
         // 3. 수강 신청 취소
-        enrollment.setCancel(true);
+        enrollment.cancel();
 
         // 4. 신청 인원 감소
         lecture.decrementEnrolledCount();
 
         // 5. 신청 가능 학점 증가
-        student.increaseMaxCredits(lecture.getSubject().getCredits());
+        student.increaseMaxCredits(lecture.getSubject().getCredit());
     }
 }
