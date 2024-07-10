@@ -33,7 +33,7 @@ public class EnrollmentService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 학생이 존재하지 않습니다."));
 
-        // 2. 정원이 찼는지 확인
+        // 2. 강의 정원이 찼는지 확인
         if (lecture.getTotalCapacity() - lecture.getEnrolledCount() <= 0) {
             throw new IllegalArgumentException("정원이 찼습니다.");
         }
