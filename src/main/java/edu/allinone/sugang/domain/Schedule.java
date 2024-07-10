@@ -9,9 +9,15 @@ import lombok.Setter;
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
+
+    @Column(name = "day_of_week")
     private String dayOfWeek;
+
+    @Column(name = "first_time")
     private String firstTime;
+
+    @Column(name = "last_time")
     private String lastTime;
 
     @ManyToOne
