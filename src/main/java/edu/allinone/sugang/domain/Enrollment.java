@@ -1,6 +1,7 @@
 package edu.allinone.sugang.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,4 +21,11 @@ public class Enrollment {
     private Lecture lecture;
 
     private boolean cancel;
+
+    @Builder
+    public Enrollment(Student student, Lecture lecture, boolean cancel) {
+        this.student = student;
+        this.lecture = lecture;
+        this.cancel = cancel;
+    }
 }
