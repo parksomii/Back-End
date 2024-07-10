@@ -44,6 +44,6 @@ dependencies {
 	testImplementation("org.mockito:mockito-junit-jupiter:3.11.2")
 }
 
-	tasks.withType<Test> {
-		useJUnitPlatform()
-	}
+tasks.withType<Test> {
+	useJUnitPlatform()
+}

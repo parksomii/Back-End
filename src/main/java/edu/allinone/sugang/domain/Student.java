@@ -1,19 +1,22 @@
 package edu.allinone.sugang.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "student")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "student_number", length = 30, nullable = false)
+    @Column(unique = true, name = "student_number", length = 30, nullable = false)
     private String studentNumber;
 
     @Column(name = "student_password", length = 100, nullable = false)
