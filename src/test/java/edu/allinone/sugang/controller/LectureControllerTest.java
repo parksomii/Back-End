@@ -1,6 +1,5 @@
 package edu.allinone.sugang.controller;
 
-import edu.allinone.sugang.controller.LectureController;
 import edu.allinone.sugang.dto.LectureDTO;
 import edu.allinone.sugang.service.LectureService;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -43,24 +43,24 @@ public class LectureControllerTest {
 
         // 테스트에서 사용할 강의 DTO 객체 생성
         LectureDTO lecture1 = new LectureDTO();
-        lecture1.setId(1);
-        lecture1.setLectureNumber("CS101");
-        lecture1.setLectureRoom("101호");
-        lecture1.setLectureHours("3시간");
-        lecture1.setTotalCapacity(50);
-        lecture1.setLectureDescription("자료구조 강의");
-        lecture1.setSubjectId(1);
-        lecture1.setProfessorId(1);
+        lecture1.setId(1); // 강의 객체의 ID 설정
+        lecture1.setLectureNumber("CS101"); // 강의 번호 설정
+        lecture1.setLectureRoom("101호"); // 강의실 설정
+        lecture1.setLectureHours("3시간"); // 강의 시간 설정
+        lecture1.setTotalCapacity(50); // 총 수용 인원 설정
+        lecture1.setLectureDescription("자료구조 강의"); // 강의 설명 설정
+        lecture1.setSubjectId(1); // 강의가 속한 과목 ID 설정
+        lecture1.setProfessorId(1); // 강의를 담당하는 교수 ID 설정
 
         LectureDTO lecture2 = new LectureDTO();
-        lecture2.setId(2);
-        lecture2.setLectureNumber("CS102");
-        lecture2.setLectureRoom("102호");
-        lecture2.setLectureHours("3시간");
-        lecture2.setTotalCapacity(50);
-        lecture2.setLectureDescription("운영체제 강의");
-        lecture2.setSubjectId(1);
-        lecture2.setProfessorId(2);
+        lecture2.setId(2); // 강의 객체의 ID 설정
+        lecture2.setLectureNumber("CS102"); // 강의 번호 설정
+        lecture2.setLectureRoom("102호"); // 강의실 설정
+        lecture2.setLectureHours("3시간"); // 강의 시간 설정
+        lecture2.setTotalCapacity(50); // 총 수용 인원 설정
+        lecture2.setLectureDescription("운영체제 강의"); // 강의 설명 설정
+        lecture2.setSubjectId(1); // 강의가 속한 과목 ID 설정
+        lecture2.setProfessorId(2); // 강의를 담당하는 교수 ID 설정
 
         // 강의 목록을 리스트에 추가
         lectureList = Arrays.asList(lecture1, lecture2);
@@ -68,9 +68,10 @@ public class LectureControllerTest {
 
     // 특정 과목 ID와 학년에 해당하는 강의 목록을 반환하는 메서드를 테스트
     @Test
+    @WithMockUser(username = "user", roles = {"USER"}) // 인증된 사용자 모의
     public void getLecturesBySubjectIdAndTargetGrade_ShouldReturnLectures() throws Exception {
-        Integer subjectId = 1;
-        String targetGrade = "2학년";
+        Integer subjectId = 1; // 테스트할 과목 ID 설정
+        String targetGrade = "2학년"; // 테스트할 학년 설정
 
         // 모의 서비스 메서드가 호출될 때 반환할 값을 설정
         when(lectureService.getLecturesBySubjectIdAndTargetGrade(subjectId, targetGrade)).thenReturn(lectureList);

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -57,6 +58,7 @@ public class DepartmentControllerTest {
 
     // 특정 단과대학 ID에 해당하는 학과 목록을 반환하는 메서드를 테스트
     @Test
+    @WithMockUser(username = "user", roles = {"USER"}) // 인증된 사용자 모의
     public void getDepartmentsByCollegeId_ShouldReturnDepartments() throws Exception {
         Integer collegeId = 1; // 테스트할 단과대학 ID를 설정
 

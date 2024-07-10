@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -42,22 +43,22 @@ public class SubjectControllerTest {
 
         // 테스트에서 사용할 과목 DTO 객체 생성
         SubjectDTO subject1 = new SubjectDTO();
-        subject1.setId(1);
-        subject1.setSubjectName("자료구조");
-        subject1.setSubjectDivision("전공");
-        subject1.setTargetGrade("2학년");
-        subject1.setHoursPerWeek(3);
-        subject1.setCredit(3);
-        subject1.setDepartmentId(1);
+        subject1.setId(1); // 과목 객체의 ID 설정
+        subject1.setSubjectName("자료구조"); // 과목 이름 설정
+        subject1.setSubjectDivision("전공"); // 과목 구분 설정
+        subject1.setTargetGrade("2학년"); // 과목 대상 학년 설정
+        subject1.setHoursPerWeek(3); // 주당 강의 시간 설정
+        subject1.setCredit(3); // 학점 설정
+        subject1.setDepartmentId(1); // 과목이 속한 학부 ID 설정
 
         SubjectDTO subject2 = new SubjectDTO();
-        subject2.setId(2);
-        subject2.setSubjectName("운영체제");
-        subject2.setSubjectDivision("전공");
-        subject2.setTargetGrade("3학년");
-        subject2.setHoursPerWeek(3);
-        subject2.setCredit(3);
-        subject2.setDepartmentId(1);
+        subject2.setId(2); // 과목 객체의 ID 설정
+        subject2.setSubjectName("운영체제"); // 과목 이름 설정
+        subject2.setSubjectDivision("전공"); // 과목 구분 설정
+        subject2.setTargetGrade("3학년"); // 과목 대상 학년 설정
+        subject2.setHoursPerWeek(3); // 주당 강의 시간 설정
+        subject2.setCredit(3); // 학점 설정
+        subject2.setDepartmentId(1); // 과목이 속한 학부 ID 설정
 
         // 과목 목록을 리스트에 추가
         subjectList = Arrays.asList(subject1, subject2);
@@ -65,8 +66,9 @@ public class SubjectControllerTest {
 
     // 특정 학부 ID에 해당하는 과목 목록을 반환하는 메서드를 테스트
     @Test
+    @WithMockUser(username = "user", roles = {"USER"}) // 인증된 사용자 모의
     public void getSubjectsByDepartmentId_ShouldReturnSubjects() throws Exception {
-        Integer departmentId = 1;
+        Integer departmentId = 1; // 테스트할 학부 ID 설정
 
         // 모의 서비스 메서드가 호출될 때 반환할 값을 설정
         when(subjectService.getSubjectsByDepartmentId(departmentId)).thenReturn(subjectList);
@@ -78,4 +80,3 @@ public class SubjectControllerTest {
                 .andExpect(content().json("[{'id': 1, 'subjectName': '자료구조', 'subjectDivision': '전공', 'targetGrade': '2학년', 'hoursPerWeek': 3, 'credit': 3, 'departmentId': 1}, {'id': 2, 'subjectName': '운영체제', 'subjectDivision': '전공', 'targetGrade': '3학년', 'hoursPerWeek': 3, 'credit': 3, 'departmentId': 1}]")); // 응답 JSON이 예상과 일치하는지 확인
     }
 }
-
