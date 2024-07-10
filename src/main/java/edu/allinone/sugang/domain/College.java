@@ -8,17 +8,14 @@ import java.util.List;
 
 @Entity
 @Getter
-@Table(name = "professor")
-public class Professor {
+public class College {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "professor_name")
-    private String professorName;
+    @Column(name = "college_name")
+    private String collegeName;
 
-    private String email;
-
-    @OneToMany(mappedBy = "professor")
-    private List<Lecture> lectures;
+    @OneToMany(mappedBy = "college")
+    private List<Department> departments;
 }

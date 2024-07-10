@@ -31,14 +31,4 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private List<Enrollment> enrollments;
 
-    // 신청 가능 학점 감소
-    public void decreaseMaxCredits(int credits) {
-        this.maxCredits -= credits;
-    }
-
-    // 신청 가능 학점 증가
-    public void increaseMaxCredits(int credits) {
-        this.maxCredits += credits;
-    }
-
 }
