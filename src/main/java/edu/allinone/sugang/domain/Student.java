@@ -10,18 +10,25 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "student")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(unique = true, name = "student_number")
     private String studentNumber;
 
     @Column(name = "student_password")
     private String studentPassword;
+
+    @Column(name = "student_name")
     private String studentName;
+
+    @Column(name = "grade")
     private String grade;
+
+    @Column(name = "max_credits")
     private int maxCredits;
 
     @ManyToOne
@@ -31,4 +38,13 @@ public class Student {
     @OneToMany(mappedBy = "student")
     private List<Enrollment> enrollments;
 
+    // 신청 가능 학점 증가
+    public void increaseMaxCredits(int credits) {
+        this.maxCredits += credits;
+    }
+
+    // 신청 가능 학점 감소
+    public void decreaseMaxCredits(int credits) {
+        this.maxCredits -= credits;
+    }
 }

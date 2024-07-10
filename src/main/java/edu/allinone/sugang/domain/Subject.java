@@ -26,6 +26,7 @@ public class Subject {
     @Column(name = "hours_per_week")
     private int hoursPerWeek;
 
+    @Column(name = "credit")
     private int credit;
 
     @OneToMany(mappedBy = "subject")

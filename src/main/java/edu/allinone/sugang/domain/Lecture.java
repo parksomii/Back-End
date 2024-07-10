@@ -7,16 +7,31 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
+@Table(name = "lecture")
 public class Lecture {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
+
+    @Column(name = "lecture_number")
     private int lectureNumber;
+
+    @Column(name = "lecture_room")
     private String lectureRoom;
+
+    @Column(name = "lecture_hours")
     private String lectureHours;
+
+    @Column(name = "total_capacity")
     private int totalCapacity;
+
+    @Column(name = "lecture_description")
     private String lectureDescription; // 강의 설명 추가
+
+    @Column(name = "enrolled_count")
+    private int enrolledCount; // 수강 신청 인원 추가
 
     @ManyToOne
     @JoinColumn(name = "department_id")
@@ -35,4 +50,14 @@ public class Lecture {
 
     @OneToMany(mappedBy = "lecture")
     private List<Schedule> schedules;
+
+    // 신청 인원 감소
+    public void decrementEnrolledCount() {
+        this.enrolledCount--;
+    }
+
+    // 신청 인원 증가
+    public void incrementEnrolledCount() {
+        this.enrolledCount++;
+    }
 }
