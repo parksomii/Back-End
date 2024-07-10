@@ -1,8 +1,7 @@
 package edu.allinone.sugang.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -15,37 +14,37 @@ public class Lecture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "lecture_number")
-    private int lectureNumber;
-
-    @Column(name = "lecture_room")
-    private String lectureRoom;
-
-    @Column(name = "lecture_hours")
-    private String lectureHours;
-
-    @Column(name = "total_capacity")
-    private int totalCapacity;
-
-    @Column(name = "lecture_description")
-    private String lectureDescription; // 강의 설명 추가
-
     @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
-
-    @ManyToOne
-    @JoinColumn(name = "professor_id")
+    @JoinColumn(name = "professor_id", nullable = false)
     private Professor professor;
 
     @ManyToOne
-    @JoinColumn(name = "subject_id")
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
+
+    @ManyToOne
+    @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
-    @OneToMany(mappedBy = "lecture")
-    private List<Enrollment> enrollments;
+    @Column(name = "lecture_number", length = 20, nullable = false)
+    private String lectureNumber;
+
+    @Column(name = "lecture_room", length = 20)
+    private String lectureRoom;
+
+    @Column(name = "lecture_hours", length = 10, nullable = false)
+    private String lectureHours;
+
+    @Column(name = "total_capacity", nullable = false)
+    private Integer totalCapacity;
+
+    @Column(name = "lecture_description", length = 200)
+    private String lectureDescription;
 
     @OneToMany(mappedBy = "lecture")
     private List<Schedule> schedules;
+
+    @OneToMany(mappedBy = "lecture")
+    private List<Enrollment> enrollments;
 
 }

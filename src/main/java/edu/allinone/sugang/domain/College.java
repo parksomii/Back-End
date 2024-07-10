@@ -13,7 +13,7 @@ public class College {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "college_name")
+    @Column(name = "college_name", length = 50, nullable = false)
     private String collegeName;
 
     @OneToMany(mappedBy = "college")
