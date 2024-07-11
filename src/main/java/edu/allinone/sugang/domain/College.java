@@ -9,6 +9,9 @@ import java.util.List;
 @Entity
 @Getter
 public class College {
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

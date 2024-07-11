@@ -12,10 +12,16 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "student")
 public class Student {
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /* -------------------------------------------- */
+    /* ------------ Information Column ------------ */
+    /* -------------------------------------------- */
     @Column(unique = true, name = "student_number", length = 30, nullable = false)
     private String studentNumber;
 
@@ -31,6 +37,9 @@ public class Student {
     @Column(name = "max_credits")
     private int maxCredits;
 
+    /* -------------------------------------------- */
+    /* -------------- Relation Column ------------- */
+    /* -------------------------------------------- */
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;

@@ -9,23 +9,16 @@ import java.util.List;
 @Getter
 @Table(name = "lecture")
 public class Lecture {
-
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "professor_id", nullable = false)
-    private Professor professor;
-
-    @ManyToOne
-    @JoinColumn(name = "department_id", nullable = false)
-    private Department department;
-
-    @ManyToOne
-    @JoinColumn(name = "subject_id", nullable = false)
-    private Subject subject;
-
+    /* -------------------------------------------- */
+    /* ------------ Information Column ------------ */
+    /* -------------------------------------------- */
     @Column(name = "lecture_number", length = 20, nullable = false)
     private String lectureNumber;
 
@@ -40,6 +33,21 @@ public class Lecture {
 
     @Column(name = "lecture_description", length = 200)
     private String lectureDescription;
+
+    /* -------------------------------------------- */
+    /* -------------- Relation Column ------------- */
+    /* -------------------------------------------- */
+    @ManyToOne
+    @JoinColumn(name = "professor_id", nullable = false)
+    private Professor professor;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
+
+    @ManyToOne
+    @JoinColumn(name = "subject_id", nullable = false)
+    private Subject subject;
 
     @OneToMany(mappedBy = "lecture")
     private List<Schedule> schedules;

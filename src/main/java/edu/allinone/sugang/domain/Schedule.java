@@ -9,14 +9,16 @@ import java.sql.Time;
 @Entity
 @Setter @Getter
 public class Schedule {
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "lecture_id", nullable = false)
-    private Lecture lecture;
-
+    /* -------------------------------------------- */
+    /* ------------ Information Column ------------ */
+    /* -------------------------------------------- */
     @Column(name = "day_of_week", length = 20, nullable = false)
     private String dayOfWeek;
 
@@ -25,4 +27,11 @@ public class Schedule {
 
     @Column(name = "last_time", nullable = false)
     private Time lastTime;
+
+    /* -------------------------------------------- */
+    /* -------------- Relation Column ------------- */
+    /* -------------------------------------------- */
+    @ManyToOne
+    @JoinColumn(name = "lecture_id", nullable = false)
+    private Lecture lecture;
 }
