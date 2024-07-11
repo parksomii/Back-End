@@ -9,10 +9,16 @@ import java.util.List;
 @Getter
 @Table(name = "subject")
 public class Subject {
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /* -------------------------------------------- */
+    /* ------------ Information Column ------------ */
+    /* -------------------------------------------- */
     @Column(name = "subject_division", length = 20, nullable = false)
     private String subjectDivision;
 
@@ -28,6 +34,9 @@ public class Subject {
     @Column(name = "credit", nullable = false)
     private Integer credit;
 
+    /* -------------------------------------------- */
+    /* -------------- Relation Column ------------- */
+    /* -------------------------------------------- */
     @OneToMany(mappedBy = "subject")
     private List<Lecture> lectures;
 

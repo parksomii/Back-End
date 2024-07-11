@@ -79,4 +79,21 @@ public class SubjectControllerTest {
                 .andExpect(status().isOk()) // HTTP 상태가 200 OK인지 확인
                 .andExpect(content().json("[{'id': 1, 'subjectName': '자료구조', 'subjectDivision': '전공', 'targetGrade': '2학년', 'hoursPerWeek': 3, 'credit': 3, 'departmentId': 1}, {'id': 2, 'subjectName': '운영체제', 'subjectDivision': '전공', 'targetGrade': '3학년', 'hoursPerWeek': 3, 'credit': 3, 'departmentId': 1}]")); // 응답 JSON이 예상과 일치하는지 확인
     }
+
+    // 강의명으로 과목을 조회하는 메서드를 테스트
+    @Test
+    @WithMockUser(username = "user", roles = {"USER"}) // 인증된 사용자 모의
+    public void getSubjectsByLectureName_ShouldReturnSubjects() throws Exception {
+        String lectureName = "자료구조"; // 테스트할 강의명 설정
+
+        // 모의 서비스 메서드가 호출될 때 반환할 값을 설정
+        when(subjectService.getSubjectsByLectureName(lectureName)).thenReturn(subjectList);
+
+        // GET 요청을 보내고 응답이 예상대로 나오는지 검증
+        mockMvc.perform(get("/api/subjects/search")
+                        .param("lectureName", lectureName) // 요청 파라미터로 강의명 설정
+                        .contentType(MediaType.APPLICATION_JSON)) // 요청의 Content-Type을 JSON으로 설정
+                .andExpect(status().isOk()) // HTTP 상태가 200 OK인지 확인
+                .andExpect(content().json("[{'id': 1, 'subjectName': '자료구조', 'subjectDivision': '전공', 'targetGrade': '2학년', 'hoursPerWeek': 3, 'credit': 3, 'departmentId': 1}, {'id': 2, 'subjectName': '운영체제', 'subjectDivision': '전공', 'targetGrade': '3학년', 'hoursPerWeek': 3, 'credit': 3, 'departmentId': 1}]")); // 응답 JSON이 예상과 일치하는지 확인
+    }
 }
