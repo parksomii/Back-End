@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, Integer> {
     List<Subject> findByDepartmentId(Integer departmentId);
+    List<Subject> findBySubjectNameContaining(String subjectName);
 }
