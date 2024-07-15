@@ -47,7 +47,6 @@ public class EnrollmentService {
         enrollmentRepository.save(Enrollment.builder()
                 .student(student)
                 .lecture(lecture)
-                .cancel(false)
                 .build()
         );
 
@@ -74,7 +73,7 @@ public class EnrollmentService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 수강 신청 정보가 존재하지 않습니다."));
 
         // 3. 수강 신청 취소
-        enrollment.cancel();
+        enrollmentRepository.delete(enrollment);
 
         // 4. 신청 인원 감소
         lecture.decrementEnrolledCount();
