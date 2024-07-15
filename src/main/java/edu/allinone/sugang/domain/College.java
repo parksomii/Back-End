@@ -25,6 +25,6 @@ public class College {
     /* -------------------------------------------- */
     /* -------------- Relation Column ------------- */
     /* -------------------------------------------- */
-    @OneToMany(mappedBy = "college")
+    @OneToMany(mappedBy = "college", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Department> departments;
 }
