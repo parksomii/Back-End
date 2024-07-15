@@ -4,23 +4,34 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Time;
+
 @Entity
 @Setter @Getter
 public class Schedule {
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "day_of_week")
+    /* -------------------------------------------- */
+    /* ------------ Information Column ------------ */
+    /* -------------------------------------------- */
+    @Column(name = "day_of_week", length = 20, nullable = false)
     private String dayOfWeek;
 
-    @Column(name = "first_time")
-    private String firstTime;
+    @Column(name = "first_time", nullable = false)
+    private Time firstTime;
 
-    @Column(name = "last_time")
-    private String lastTime;
+    @Column(name = "last_time", nullable = false)
+    private Time lastTime;
 
+    /* -------------------------------------------- */
+    /* -------------- Relation Column ------------- */
+    /* -------------------------------------------- */
     @ManyToOne
-    @JoinColumn(name = "lecture_id")
+    @JoinColumn(name = "lecture_id", nullable = false)
     private Lecture lecture;
 }

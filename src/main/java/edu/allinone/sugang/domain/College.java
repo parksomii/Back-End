@@ -9,11 +9,14 @@ import java.util.List;
 @Entity
 @Getter
 public class College {
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "college_name")
+    @Column(name = "college_name", length = 50, nullable = false)
     private String collegeName;
 
     @OneToMany(mappedBy = "college")
