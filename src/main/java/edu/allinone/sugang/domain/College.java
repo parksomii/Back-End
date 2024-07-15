@@ -19,7 +19,7 @@ public class College {
     /* -------------------------------------------- */
     /* ------------ Information Column ------------ */
     /* -------------------------------------------- */
-    @Column(name = "college_name")
+    @Column(name = "college_name", length = 50, nullable = false)
     private String collegeName;
 
     /* -------------------------------------------- */

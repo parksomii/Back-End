@@ -20,10 +20,10 @@ public class Professor {
     /* -------------------------------------------- */
     /* ------------ Information Column ------------ */
     /* -------------------------------------------- */
-    @Column(name = "professor_name")
+    @Column(name = "professor_name", length = 20, nullable = false)
     private String professorName;
 
-    @Column(name = "email")
+    @Column(name = "email", length = 30)
     private String email;
 
     /* -------------------------------------------- */

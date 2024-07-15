@@ -20,52 +20,40 @@ public class Lecture {
     /* -------------------------------------------- */
     /* ------------ Information Column ------------ */
     /* -------------------------------------------- */
-    @Column(name = "lecture_number")
+    @Column(name = "lecture_number", length = 20, nullable = false)
     private int lectureNumber;
 
-    @Column(name = "lecture_room")
+    @Column(name = "lecture_room", length = 20)
     private String lectureRoom;
 
-    @Column(name = "lecture_hours")
+    @Column(name = "lecture_hours", length = 10, nullable = false)
     private String lectureHours;
 
-    @Column(name = "total_capacity")
+    @Column(name = "total_capacity", nullable = false)
     private int totalCapacity;
 
-    @Column(name = "lecture_description")
+    @Column(name = "lecture_description", length = 200)
     private String lectureDescription; // 강의 설명 추가
-
-    @Column(name = "enrolled_count")
-    private int enrolledCount; // 수강 신청 인원 추가
 
     /* -------------------------------------------- */
     /* -------------- Relation Column ------------- */
     /* -------------------------------------------- */
     @ManyToOne
-    @JoinColumn(name = "department_id")
+    @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
     @ManyToOne
-    @JoinColumn(name = "professor_id")
+    @JoinColumn(name = "professor_id", nullable = false)
     private Professor professor;
 
     @ManyToOne
-    @JoinColumn(name = "subject_id")
+    @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
-    @OneToMany(mappedBy = "lecture", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "lecture")
     private List<Enrollment> enrollments;
 
-    @OneToMany(mappedBy = "lecture", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "lecture")
     private List<Schedule> schedules;
 
-    // 신청 인원 감소
-    public void decrementEnrolledCount() {
-        this.enrolledCount--;
-    }
-
-    // 신청 인원 증가
-    public void incrementEnrolledCount() {
-        this.enrolledCount++;
-    }
 }

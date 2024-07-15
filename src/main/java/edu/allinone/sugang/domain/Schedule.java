@@ -17,19 +17,19 @@ public class Schedule {
     /* -------------------------------------------- */
     /* ------------ Information Column ------------ */
     /* -------------------------------------------- */
-    @Column(name = "day_of_week")
+    @Column(name = "day_of_week", length = 20, nullable = false)
     private String dayOfWeek;
 
-    @Column(name = "first_time")
+    @Column(name = "first_time", nullable = false)
     private String firstTime;
 
-    @Column(name = "last_time")
+    @Column(name = "last_time", nullable = false)
     private String lastTime;
 
     /* -------------------------------------------- */
     /* -------------- Relation Column ------------- */
     /* -------------------------------------------- */
     @ManyToOne
-    @JoinColumn(name = "lecture_id")
+    @JoinColumn(name = "lecture_id", nullable = false)
     private Lecture lecture;
 }

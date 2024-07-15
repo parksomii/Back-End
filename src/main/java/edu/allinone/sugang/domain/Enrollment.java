@@ -29,7 +29,7 @@ public class Enrollment {
     /* ----------------- Functions ---------------- */
     /* -------------------------------------------- */
     @Builder
-    public Enrollment(Student student, Lecture lecture, boolean cancel) {
+    public Enrollment(Student student, Lecture lecture) {
         this.student = student;
         this.lecture = lecture;
     }
