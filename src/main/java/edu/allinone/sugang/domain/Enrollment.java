@@ -1,12 +1,11 @@
 package edu.allinone.sugang.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Enrollment {
     /* -------------------------------------------- */
     /* -------------- Default Column -------------- */
@@ -33,11 +32,5 @@ public class Enrollment {
     public Enrollment(Student student, Lecture lecture, boolean cancel) {
         this.student = student;
         this.lecture = lecture;
-        this.cancel = cancel;
-    }
-
-    // 수강 신청 취소
-    public void cancel() {
-        this.cancel = true;
     }
 }

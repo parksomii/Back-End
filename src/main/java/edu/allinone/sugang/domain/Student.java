@@ -41,7 +41,7 @@ public class Student {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Enrollment> enrollments;
 
     /* -------------------------------------------- */
