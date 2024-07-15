@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, Integer> {
-    List<Subject> findByDepartmentIdAndTargetGrade(Integer departmentId, String targetGrade);
-    //학부와 학년에 맞는 과목을 조회하는 데 필요한 findByDepartmentIdAndTargetGrade 메서드
+    List<Subject> findByDepartmentId(Integer departmentId);
+    List<Subject> findBySubjectNameContaining(String subjectName);
 }
