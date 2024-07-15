@@ -35,6 +35,9 @@ public class Lecture {
     @Column(name = "lecture_description", length = 200)
     private String lectureDescription; // 강의 설명 추가
 
+    @Column(name = "enrolled_count", nullable = false)
+    private int enrolledCount;
+
     /* -------------------------------------------- */
     /* -------------- Relation Column ------------- */
     /* -------------------------------------------- */
@@ -50,10 +53,22 @@ public class Lecture {
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
-    @OneToMany(mappedBy = "lecture")
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Enrollment> enrollments;
 
-    @OneToMany(mappedBy = "lecture")
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Schedule> schedules;
 
+    /* -------------------------------------------- */
+    /* ----------------- Functions ---------------- */
+    /* -------------------------------------------- */
+    // 신청 인원 감소
+    public void decrementEnrolledCount() {
+        this.enrolledCount--;
+    }
+
+    // 신청 인원 증가
+    public void incrementEnrolledCount() {
+        this.enrolledCount++;
+    }
 }
