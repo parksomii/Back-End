@@ -32,7 +32,7 @@ public class EnrollmentControllerTest {
     public void enrollTest() throws Exception {
         doNothing().when(enrollmentService).enroll(any(), any());
 
-        mockMvc.perform(post("/enrollment/enroll")
+        mockMvc.perform(post("/enrollment")
                         .with(csrf()) // CSRF 토큰 추가
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"studentId\":1,\"lectureId\":1}"))
