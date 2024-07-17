@@ -21,7 +21,7 @@ public class Lecture {
     /* ------------ Information Column ------------ */
     /* -------------------------------------------- */
     @Column(name = "lecture_number", length = 20, nullable = false)
-    private int lectureNumber;
+    private String lectureNumber;
 
     @Column(name = "lecture_room", length = 20)
     private String lectureRoom;
@@ -30,7 +30,7 @@ public class Lecture {
     private String lectureHours;
 
     @Column(name = "total_capacity", nullable = false)
-    private int totalCapacity;
+    private Integer totalCapacity;
 
     @Column(name = "lecture_description", length = 200)
     private String lectureDescription; // 강의 설명 추가

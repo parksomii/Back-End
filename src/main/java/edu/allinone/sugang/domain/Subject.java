@@ -30,10 +30,10 @@ public class Subject {
     private String targetGrade;
 
     @Column(name = "hours_per_week", nullable = false)
-    private int hoursPerWeek;
+    private Integer hoursPerWeek;
 
     @Column(name = "credit", nullable = false)
-    private int credit; // 오타 여부 확인
+    private Integer credit; // 오타 여부 확인
 
     /* -------------------------------------------- */
     /* -------------- Relation Column ------------- */
