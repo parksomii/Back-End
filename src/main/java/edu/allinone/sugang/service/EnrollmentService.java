@@ -9,6 +9,9 @@ import edu.allinone.sugang.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -80,5 +83,18 @@ public class EnrollmentService {
 
         // 5. 신청 가능 학점 증가
         student.increaseMaxCredits(lecture.getSubject().getCredit());
+    }
+
+    /**
+     * 수강 신청 내역 조회
+     */
+    @Transactional
+    public List<Enrollment> getEnrollments(Integer studentId) {
+        // 1. 학생 정보 가져오기
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 학생이 존재하지 않습니다."));
+
+        // 2. 수강 신청 내역 조회
+        return enrollmentRepository.findByStudentId(studentId);
     }
 }
