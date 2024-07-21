@@ -2,7 +2,6 @@ package edu.allinone.sugang.dto.global;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 /**
  * ResponseDto
@@ -10,26 +9,26 @@ import org.springframework.http.HttpStatus;
  */
 @NoArgsConstructor
 @Getter
-public class ResponseDto<T> {
+public class ResponseDTO<T> {
     private Integer status;
     private String message;
     private T data;
 
     // 모두 반환
-    public ResponseDto(Integer status, String message, T data) {
+    public ResponseDTO(Integer status, String message, T data) {
         this.status = status;
         this.message = message;
         this.data = data;
     }
 
     // 메세지 없이 반환
-    public ResponseDto(Integer status, T data) {
+    public ResponseDTO(Integer status, T data) {
         this.status = status;
         this.data = data;
     }
 
     // 데이터 없이 반환
-    public ResponseDto(Integer status, String message) {
+    public ResponseDTO(Integer status, String message) {
         this.status = status;
         this.message = message;
     }
