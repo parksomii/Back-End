@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnrollmentRequestDto {
+public class EnrollmentDTO {
     private Integer studentId;
     private Integer lectureId;
 }
