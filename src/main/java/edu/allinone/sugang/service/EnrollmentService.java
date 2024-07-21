@@ -3,15 +3,16 @@ package edu.allinone.sugang.service;
 import edu.allinone.sugang.domain.Enrollment;
 import edu.allinone.sugang.domain.Lecture;
 import edu.allinone.sugang.domain.Student;
-import edu.allinone.sugang.repository.EnrollmentRepository;
-import edu.allinone.sugang.repository.LectureRepository;
-import edu.allinone.sugang.repository.StudentRepository;
+import edu.allinone.sugang.dto.response.CreditDTO;
+import edu.allinone.sugang.dto.response.LectureSummaryDTO;
+import edu.allinone.sugang.dto.response.LectureTimeDTO;
+import edu.allinone.sugang.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +20,9 @@ public class EnrollmentService {
 
     private final EnrollmentRepository enrollmentRepository;
     private final LectureRepository lectureRepository;
+    private final SubjectRepository subjectRepository;
     private final StudentRepository studentRepository;
+    private final ScheduleRepository scheduleRepository;
 
     /* ================================================================= */
     //                              수강 신청                            //
@@ -96,5 +99,89 @@ public class EnrollmentService {
 
         // 2. 수강 신청 내역 조회
         return enrollmentRepository.findByStudentId(studentId);
+    }
+
+    /* ================================================================= */
+    //                              강의 조회                            //
+    /* ================================================================= */
+
+    /**
+     * 과목명으로 강의 조회
+     */
+    @Transactional
+    public List<LectureSummaryDTO> getLecturesBySubjectName(String subjectName) {
+        List<Lecture> lectures = lectureRepository.findBySubject_SubjectNameContaining(subjectName); // 과목명으로 강의 조회
+        return lectures.stream()
+                .map(lecture -> LectureSummaryDTO.builder()
+                        .lectureId(lecture.getId()) // 강의id 추가
+                        .subjectName(lecture.getSubject().getSubjectName()) // 강의 이름 추가
+                        .lectureTimes(lecture.getSchedules().stream() // 강의 시간 DTO 추가
+                                .map(schedule -> LectureTimeDTO.builder()
+                                        .dayOfWeek(schedule.getDayOfWeek()) // 요일 추가
+                                        .firstTime(schedule.getFirstTime()) // 시작 시간 추가
+                                        .lastTime(schedule.getLastTime()) // 종료 시간 추가
+                                        .build())
+                                .collect(Collectors.toList()))
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 특정 강의 정보 조회
+     */
+
+    /* ================================================================= */
+    //                              정보 갱신                            //
+    /* ================================================================= */
+
+    /**
+     * 시간표 갱신
+     */
+    @Transactional
+    public List<LectureTimeDTO> updateTimetable(Integer studentId) {
+        // 1. 수강 신청 내역 가져오기
+        List<Enrollment> enrollments = getEnrollments(studentId);
+
+        // 2. 수강신청 내역에서 lectureId만 추출
+        List<Integer> lectureIds = enrollments.stream()
+                .map(enrollment -> enrollment.getLecture().getId())
+                .toList();
+
+        // 3. LectureTimeDTO 리스트 생성 후 반환
+        return lectureIds.stream()
+                .flatMap(lectureId -> scheduleRepository.findByLectureId(lectureId).stream())
+                .map(schedule -> LectureTimeDTO.builder()
+                        .dayOfWeek(schedule.getDayOfWeek())
+                        .firstTime(schedule.getFirstTime())
+                        .lastTime(schedule.getLastTime())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 학점 갱신
+     */
+    @Transactional
+    public List<CreditDTO> updateCredits(Integer studentId) {
+        // 1. 수강 신청 내역 가져오기
+        List<Enrollment> enrollments = getEnrollments(studentId);
+
+        // 2. 수강 신청 내역에서 신청 학점 리스트 생성
+        List<Integer> enrolledCredits = enrollments.stream()
+                .map(enrollment -> enrollment.getLecture().getSubject().getCredit())
+                .toList();
+
+        // 3. 수강 신청 학점 합 계산
+        Integer totalCredit = enrolledCredits.stream()
+                .reduce(0, Integer::sum);
+
+        // 4. 학점 정보 반환
+        return enrollments.stream()
+                .map(enrollment -> CreditDTO.builder()
+                        .studentId(studentId) // 학생 id 추가
+                        .maxCredit(enrollment.getStudent().getMaxCredits()) // 최대 학점 추가
+                        .EnrolledCredit(totalCredit) // 신청 학점 추가
+                        .build())
+                .collect(Collectors.toList());
     }
 }
