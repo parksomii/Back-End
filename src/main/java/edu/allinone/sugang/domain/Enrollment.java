@@ -1,16 +1,22 @@
 package edu.allinone.sugang.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Enrollment {
+    /* -------------------------------------------- */
+    /* -------------- Default Column -------------- */
+    /* -------------------------------------------- */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /* -------------------------------------------- */
+    /* -------------- Relation Column ------------- */
+    /* -------------------------------------------- */
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
@@ -19,5 +25,12 @@ public class Enrollment {
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
-    private boolean cancel;
+    /* -------------------------------------------- */
+    /* ----------------- Functions ---------------- */
+    /* -------------------------------------------- */
+    @Builder
+    public Enrollment(Student student, Lecture lecture) {
+        this.student = student;
+        this.lecture = lecture;
+    }
 }

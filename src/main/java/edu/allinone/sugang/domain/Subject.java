@@ -1,7 +1,8 @@
 package edu.allinone.sugang.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -19,20 +20,20 @@ public class Subject {
     /* -------------------------------------------- */
     /* ------------ Information Column ------------ */
     /* -------------------------------------------- */
-    @Column(name = "subject_division", length = 20, nullable = false)
+    @Column(name = "subject_name", length = 20, nullable = false)
+    private String subjectName;
+
+    @Column(name = "subject_division", length = 30, nullable = false)
     private String subjectDivision;
 
     @Column(name = "target_grade", length = 20, nullable = false)
     private String targetGrade;
 
-    @Column(name = "subject_name", length = 30, nullable = false)
-    private String subjectName;
-
     @Column(name = "hours_per_week", nullable = false)
     private Integer hoursPerWeek;
 
     @Column(name = "credit", nullable = false)
-    private Integer credit;
+    private Integer credit; // 오타 여부 확인
 
     /* -------------------------------------------- */
     /* -------------- Relation Column ------------- */

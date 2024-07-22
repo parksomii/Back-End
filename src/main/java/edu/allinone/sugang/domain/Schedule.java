@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Time;
+import java.time.LocalTime;
 
 @Entity
-@Setter @Getter
+@Getter
+@Table(name = "schedule")
 public class Schedule {
     /* -------------------------------------------- */
     /* -------------- Default Column -------------- */
@@ -23,10 +24,10 @@ public class Schedule {
     private String dayOfWeek;
 
     @Column(name = "first_time", nullable = false)
-    private Time firstTime;
+    private LocalTime firstTime;
 
     @Column(name = "last_time", nullable = false)
-    private Time lastTime;
+    private LocalTime lastTime;
 
     /* -------------------------------------------- */
     /* -------------- Relation Column ------------- */

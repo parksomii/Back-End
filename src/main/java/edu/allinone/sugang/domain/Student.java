@@ -31,7 +31,7 @@ public class Student {
     @Column(name = "student_name", length = 20, nullable = false)
     private String studentName;
 
-    @Column(name = "grade", length = 10)
+    @Column(name = "grade", length = 1)
     private String grade;
 
     @Column(name = "max_credits")
@@ -44,6 +44,19 @@ public class Student {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Enrollment> enrollments;
+
+    /* -------------------------------------------- */
+    /* ----------------- Functions ---------------- */
+    /* -------------------------------------------- */
+    // 신청 가능 학점 증가
+    public void increaseMaxCredits(int credits) {
+        this.maxCredits += credits;
+    }
+
+    // 신청 가능 학점 감소
+    public void decreaseMaxCredits(int credits) {
+        this.maxCredits -= credits;
+    }
 }
