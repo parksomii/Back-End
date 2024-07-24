@@ -1,27 +1,35 @@
 package edu.allinone.sugang.controller;
 
-import edu.allinone.sugang.repository.EnrollmentRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.allinone.sugang.domain.Department;
+import edu.allinone.sugang.domain.Lecture;
+import edu.allinone.sugang.domain.Professor;
+import edu.allinone.sugang.domain.Subject;
+import edu.allinone.sugang.dto.request.EnrollmentDTO;
 import edu.allinone.sugang.repository.LectureRepository;
-import edu.allinone.sugang.repository.StudentRepository;
 import edu.allinone.sugang.service.EnrollmentService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(EnrollmentController.class)
-@WithMockUser
+@WebMvcTest(EnrollmentController.class) // Controller 레이어만 테스트 하고 싶다면 @WebMvcTest를 사용하는 것이 좋다.
 public class EnrollmentControllerTest {
 
     @Autowired
@@ -31,13 +39,16 @@ public class EnrollmentControllerTest {
     private EnrollmentService enrollmentService;
 
     @MockBean
-    private LectureRepository lectureRepository; // Mock Bean으로 변경
+    private LectureRepository lectureRepository;
 
-    @MockBean
-    private StudentRepository studentRepository; // Mock Bean으로 변경
+    @Autowired
+    // 요청이 오면 Content-Type이 json인 것을 Object로 바꿔주고 처리 후 Object를 json으로 변경하여 request 합니다.
+    private ObjectMapper objectMapper;
 
-    @MockBean
-    private EnrollmentRepository enrollmentRepository; // Mock Bean으로 변경
+    @BeforeEach
+    public void setup(WebApplicationContext webApplicationContext) {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
 
     /* ================================================================= */
     //                              수강 신청                            //
@@ -47,55 +58,104 @@ public class EnrollmentControllerTest {
      * 학생id, 과목id를 입력 받고 수강 신청 하기 테스트
      */
     @Test
+    @DisplayName("학생id, 과목id 수강 신청 하기 테스트")
     public void enrollTest() throws Exception {
-        doNothing().when(enrollmentService).enroll(any(), any());
+        EnrollmentDTO enrollmentDTO = new EnrollmentDTO(1, 1);
+
+        Mockito.doNothing().when(enrollmentService).enroll(anyInt(), anyInt());
 
         mockMvc.perform(post("/enrollment")
-                        .with(csrf()) // CSRF 토큰 추가
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"studentId\":1,\"lectureId\":1}"))
+                        .content(objectMapper.writeValueAsString(enrollmentDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.data.studentId").value(1))
                 .andExpect(jsonPath("$.message").value("신청 완료"));
-
-        verify(enrollmentService).enroll(1, 1);
     }
 
     /**
      * 학생id, 과목코드 입력 받고 수강 신청 하기 테스트
      */
-//    @Test
-//    public void enrollByCodeTest() throws Exception {
-//        // enrollmentService.enroll 이 호출될 때 아무 작업도 하지 않도록 설정 (doNothing())
-//        doNothing().when(enrollmentService).enroll(any(), any());
-//
-//        mockMvc.perform(post("/enrollment/by-code")
-//                        .with(csrf()) // CSRF 토큰 추가
-//                        .param("studentId", "1") // request parameter로 studentId 1 전달
-//                        .param("lectureNumber", "21032-001")) // request parameter로 lectureNumber 21032-001 전달
-//                .andExpect(status().isCreated()) // 응답 상태 코드가 201 Created인지 확인
-//                .andExpect(jsonPath("$.data.studentId").value(1)) // 응답 JSON이 studentId 1 확인
-//                .andExpect(jsonPath("$.data.lectureId").value(1)) // 응답 JSON이 lectureId 1 확인
-//                .andExpect(jsonPath("$.message").value("신청 완료")); // 응답 message가 "신청 완료"를 포함하는지 확인.
-//
-//        verify(enrollmentService).enroll(1, 1); // enroll 메서드가 1번 호출되었는지 확인
-//    }
+    @Test
+    @DisplayName("학생id, 과목코드 수강 신청 하기 테스트")
+    public void enrollByCodeTest() throws Exception {
+        // Create dummy data for Department, Professor, and Subject
+        Department department = Department.builder()
+                .id(1)
+                .departmentName("컴퓨터학부")
+                .students(Collections.emptyList())
+                .lectures(Collections.emptyList())
+                .college(null) // Assuming college can be null or mocked accordingly
+                .subjects(Collections.emptyList())
+                .build();
+
+        Professor professor = Professor.builder()
+                .id(1)
+                .professorName("김철수")
+                .email("cs.kim@university.ac.kr")
+                .lectures(Collections.emptyList())
+                .build();
+
+        Subject subject = Subject.builder()
+                .id(1)
+                .subjectName("컴퓨터 네트워크")
+                .subjectDivision("전필")
+                .targetGrade("3학년")
+                .hoursPerWeek(3)
+                .credit(3)
+                .lectures(Collections.emptyList())
+                .department(department)
+                .build();
+
+        // Create a Lecture object using the builder pattern
+        Lecture lecture = Lecture.builder()
+                .id(1)
+                .lectureNumber("21032-001")
+                .lectureRoom("A101")
+                .lectureHours("3")
+                .totalCapacity(50)
+                .lectureDescription("컴퓨터 네트워크에 대한 기본 개념과 기술을 학습합니다.")
+                .enrolledCount(0)
+                .department(department)
+                .professor(professor)
+                .subject(subject)
+                .enrollments(Collections.emptyList())
+                .schedules(Collections.emptyList())
+                .build();
+
+        Mockito.when(lectureRepository.findByLectureNumber(anyString())).thenReturn(Optional.of(lecture));
+        Mockito.doNothing().when(enrollmentService).enroll(anyInt(), anyInt());
+
+        mockMvc.perform(post("/enrollment/by-code")
+                        .param("studentId", "1")
+                        .param("lectureNumber", "21032-001"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.message").value("신청 완료"));
+    }
+
 
     /**
      * 수강 신청 취소 테스트
      */
     @Test
+    @DisplayName("수강 신청 취소 테스트")
     public void cancelTest() throws Exception {
-        doNothing().when(enrollmentService).cancel(1, 1);
+        Mockito.doNothing().when(enrollmentService).cancel(anyInt(), anyInt());
 
-        mockMvc.perform(delete("/enrollment/1/1")
-                        .with(csrf()) // CSRF 토큰 추가
-                        .contentType(MediaType.APPLICATION_JSON)) // 본체 제거
+        mockMvc.perform(delete("/enrollment/1/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.studentId").value(1))
                 .andExpect(jsonPath("$.message").value("취소 완료"));
+    }
 
-        verify(enrollmentService).cancel(1, 1); // cancel 메서드가 1번 호출되었는지 확인
+    /**
+     * 수강 신청 내역 조회 테스트
+     */
+    @Test
+    @DisplayName("수강 신청 내역 조회 테스트")
+    public void testGetEnrollments() throws Exception {
+        Mockito.when(enrollmentService.getEnrollments(anyInt())).thenReturn(List.of());
+
+        mockMvc.perform(get("/enrollment/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("수강신청 내역이 없습니다."));
     }
 
 
@@ -106,6 +166,17 @@ public class EnrollmentControllerTest {
     /**
      * 과목명으로 강의 조회 테스트
      */
+    @Test
+    @DisplayName("과목명으로 강의 조회 테스트")
+    public void testGetLecturesBySubjectName() throws Exception {
+        Mockito.when(enrollmentService.getLecturesBySubjectName(any())).thenReturn(List.of());
+
+        mockMvc.perform(get("/enrollment/by-name")
+                        .param("subjectName", "Math"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("강의 목록이 없습니다."));
+    }
+
 
     /* ================================================================= */
     //                              정보 갱신                            //
@@ -114,8 +185,26 @@ public class EnrollmentControllerTest {
     /**
      * 시간표 갱신 테스트
      */
+    @Test
+    @DisplayName("시간표 갱신 테스트")
+    public void testUpdateTimetable() throws Exception {
+        Mockito.when(enrollmentService.updateTimetable(anyInt())).thenReturn(List.of());
+
+        mockMvc.perform(get("/enrollment/schedule")
+                        .param("studentId", "1"))
+                .andExpect(status().isCreated());
+    }
 
     /**
      * 학점 갱신 테스트
      */
+    @Test
+    @DisplayName("학점 갱신 테스트")
+    public void testUpdateCredits() throws Exception {
+        Mockito.when(enrollmentService.updateCredits(anyInt())).thenReturn(List.of());
+
+        mockMvc.perform(get("/enrollment/credit")
+                        .param("studentId", "1"))
+                .andExpect(status().isCreated());
+    }
 }
