@@ -17,7 +17,7 @@ public class LectureService {
     // 특정 과목 ID와 대상 학년에 해당하는 강의 목록을 반환하는 메서드
     public List<LectureDTO> getLecturesBySubjectIdAndTargetGrade(Integer subjectId, String targetGrade) {
         // Lecture 엔티티 리스트를 LectureDTO 리스트로 변환하여 반환
-        return lectureRepository.findBySubjectIdAndTargetGrade(subjectId, targetGrade).stream().map(lecture -> {
+        return lectureRepository.findBySubjectIdAndSubject_TargetGrade(subjectId, targetGrade).stream().map(lecture -> {
             // Lecture 엔티티를 LectureDTO로 변환
             LectureDTO dto = new LectureDTO();
             dto.setId(lecture.getId()); // 강의 ID 설정

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LectureRepository extends JpaRepository<Lecture, Integer> {
-    List<Lecture> findBySubjectIdAndTargetGrade(Integer subjectId, String targetGrade);
+    List<Lecture> findBySubjectIdAndSubject_TargetGrade(Integer subjectId, String targetGrade);
     List<Lecture> findBySubject_SubjectNameContaining(String subjectName);
-    Optional<Lecture> findByLectureNumber(Integer lectureNumber); // lectureNumber로 강의 조회
+    Optional<Lecture> findByLectureNumber(String lectureNumber); // lectureNumber로 강의 조회
 }
