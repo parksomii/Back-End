@@ -47,7 +47,7 @@ public class EnrollmentController {
      */
     @PostMapping("/by-code")
     @ResponseStatus(HttpStatus.CREATED) // 상태를 201 Created로 설정
-    public ResponseDTO<?> enrollByCode(@RequestParam Integer studentId, @RequestParam Integer lectureNumber) {
+    public ResponseDTO<?> enrollByCode(@RequestParam Integer studentId, @RequestParam String lectureNumber) {
         EnrollmentDTO enrollmentDTO;
         try {
             Integer lectureId = lectureRepository.findByLectureNumber(lectureNumber)
